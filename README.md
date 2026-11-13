@@ -7,7 +7,7 @@ This repository releases the **small-model side** of Open-IDS: the label-efficie
 ## Quick Start
 
 ```bash
-git clone https://github.com/<your-username>/openids-artifact.git
+git clone https://github.com/lszhang1/Openids-artifact.git
 cd openids-artifact
 pip install -r requirements.txt
 ```
@@ -18,16 +18,12 @@ pip install -r requirements.txt
 python scripts/classify.py --known-dir assets/data/known
 ```
 
-Output: per-class P/R/F1 + Accuracy + Macro-F1 (~96.8%).
-
 ### Effect B: Known + Unknown Detection
 
 ```bash
 python scripts/detect.py --known-dir assets/data/known \
                          --unknown-dir assets/data/unknown
 ```
-
-Output: Known/Unknown P/R/F1 + binary Macro-F1 (~95.7%) + PR-AUC + per-attack recall.
 
 ### Effect C: Few-Shot Registration + 45-Class Evaluation
 
@@ -37,7 +33,46 @@ python scripts/register.py --known-dir assets/data/known \
                            --M 10
 ```
 
-Output: known-class F1 (preserved, ~96.8%) + registered-class F1 (~92%) + overall 45-class F1.
+## Paper Results
+
+The following tables are reproduced from the paper for reference.
+
+### Fine-Grained Classification (Table III)
+
+| Method | Macro-F1 |
+|---|---|
+| TR-IDS | 81.89 |
+| MHPN | 80.17 |
+| GRL | 78.73 |
+| Multimodal | 79.10 |
+| XG-NID | 85.83 |
+| **Open-IDS** | **96.12** |
+
+### Unknown Attack Detection (Table VII)
+
+| Method | Known F1 | Unknown F1 | Macro F1 | PR-AUC |
+|---|---|---|---|---|
+| Anomal-E | 85.37 | 85.14 | 85.26 | 0.8617 |
+| GraphIDS | 96.42 | 96.03 | 96.23 | 0.9682 |
+| **Open-IDS** | 96.65 | 94.88 | 95.77 | 0.9597 |
+
+### LLM Attribution Ablation (Table VIII)
+
+| Pipeline | Macro-F1 |
+|---|---|
+| LLM only | 80.07 |
+| Vanilla RAG | 88.35 |
+| **Agentic RAG** | **98.08** |
+
+### Few-Shot Registration (Table IX)
+
+| M | Macro-F1 |
+|---|---|
+| 5 | 76.24 |
+| 7 | 81.84 |
+| **10** | **92.02** |
+| 15 | 92.14 |
+| 20 | 92.22 |
 
 ## Using Your Own Traffic
 
@@ -88,8 +123,8 @@ assets/
   checkpoint.pt           Trained encoder (3.3 MB)
   memory.npz              Prototype memory + thresholds (440 KB)
   feature_columns.json    Flow-node feature order
-  data/known/             34 known-class test graphs (curated)
-  data/unknown/           11 emerging-attack test graphs (curated)
+  data/known/             34 known-class test graphs
+  data/unknown/           11 emerging-attack test graphs
 ```
 
 ## Paper Correspondence
